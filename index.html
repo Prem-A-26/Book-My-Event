@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book My Event - Movie Ticket Booking</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-film"></i>
+                </div>
+                <span class="logo-text">Book My Event</span>
+            </div>
+            <nav class="nav">
+                <a href="#" class="nav-link" onclick="showPage('home')">Home</a>
+                <a href="#" class="nav-link" onclick="showPage('movies')">Movies</a>
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Search movies..." id="searchInput">
+                    <i class="fas fa-search search-icon"></i>
+                    <div class="search-suggestions" id="searchSuggestions"></div>
+                </div>
+                <div class="auth-buttons" id="authButtons">
+                    <button class="btn btn--outline" onclick="showAuthPage()" id="loginBtn">Login</button>
+                    <button class="btn btn--primary" onclick="showAuthPage('signup')" id="signupBtn">Sign Up</button>
+                    <div class="user-menu hidden" id="userMenu">
+                        <div class="user-avatar" onclick="toggleUserDropdown()">
+                            <i class="fas fa-user-circle"></i>
+                            <span id="userName">User</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="user-dropdown hidden" id="userDropdown">
+                            <a href="#" onclick="showPage('profile')" class="dropdown-item">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" onclick="showPage('profile', 'bookings')" class="dropdown-item">
+                                <i class="fas fa-ticket-alt"></i> My Bookings
+                            </a>
+                            <a href="#" onclick="logout()" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Auth Page -->
+    <div id="authPage" class="auth-page hidden">
+        <div class="auth-background"></div>
+        <div class="auth-overlay"></div>
+        <div class="auth-container">
+            <div class="auth-form-container">
+                <div class="auth-logo">
+                    <i class="fas fa-film auth-logo-icon"></i>
+                </div>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                    <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+                </div>
+                
+                <!-- Login Form -->
+                <div id="loginForm" class="auth-form active">
+                    <h2>Welcome Back</h2>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                            <div class="field-error" id="loginEmailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <div class="password-input">
+                                <input type="password" class="form-control" name="password" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="field-error" id="loginPasswordError"></div>
+                        </div>
+                        <div class="form-options">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="rememberMe">
+                                <span class="checkbox-custom"></span>
+                                Remember Me
+                            </label>
+                            <a href="#" onclick="showForgotPassword()" class="forgot-link">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width btn--lg">Login</button>
+                    </form>
+                </div>
+
+                <!-- Signup Form -->
+                <div id="signupForm" class="auth-form">
+                    <h2>Create Account</h2>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" name="name" required>
+                            <div class="field-error" id="signupNameError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" name="email" required>
+                            <div class="field-error" id="signupEmailError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone Number</label>
+                            <input type="tel" class="form-control" name="phone" required pattern="[6-9]\d{9}">
+                            <div class="field-error" id="signupPhoneError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <div class="password-input">
+                                <input type="password" class="form-control" name="password" required>
+                                <button type="button" class="password-toggle" onclick="togglePassword(this)">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill"></div>
+                                </div>
+                                <div class="strength-text">Password Strength</div>
+                            </div>
+                            <div class="field-error" id="signupPasswordError"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Confirm Password</label>
+                            <input type="password" class="form-control" name="confirmPassword" required>
+                            <div class="field-error" id="signupConfirmPasswordError"></div>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width btn--lg">Create Account</button>
+                    </form>
+                </div>
+
+                <button class="auth-close" onclick="hideAuthPage()">&times;</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <div id="homePage" class="page active">
+            <section class="hero">
+                <div class="container">
+                    <h1 class="hero-title">Book Your Favorite Movies & Events</h1>
+                    <p class="hero-subtitle">Experience cinema and live events like never before</p>
+                    <div class="category-tabs">
+                        <button class="category-tab active" onclick="filterMovies('all')">All</button>
+                        <button class="category-tab" onclick="filterMovies('bollywood')">Bollywood</button>
+                        <button class="category-tab" onclick="filterMovies('kollywood')">Kollywood</button>
+                        <button class="category-tab" onclick="filterMovies('tollywood')">Tollywood</button>
+                        <button class="category-tab" onclick="filterMovies('hollywood')">Hollywood</button>
+                        <button class="category-tab" onclick="filterMovies('events')">Events</button>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="featured-movies">
+                <div class="container">
+                    <h2>Featured Movies & Events</h2>
+                    <div class="movies-grid" id="featuredMoviesGrid">
+                        <!-- Movies and events will be loaded here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Movies Page -->
+        <div id="moviesPage" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>All Movies & Events</h1>
+                    <div class="filters">
+                        <select class="form-control filter-select" id="languageFilter">
+                            <option value="">All Languages</option>
+                            <option value="Hindi">Hindi</option>
+                            <option value="Tamil">Tamil</option>
+                            <option value="Telugu">Telugu</option>
+                            <option value="English">English</option>
+                        </select>
+                        <select class="form-control filter-select" id="genreFilter">
+                            <option value="">All Genres</option>
+                            <option value="Action">Action</option>
+                            <option value="Comedy">Comedy</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Sci-Fi">Sci-Fi</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="movies-grid" id="allMoviesGrid">
+                    <!-- Movies and events will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Movie Details Page -->
+        <div id="movieDetailsPage" class="page">
+            <div class="container">
+                <div class="movie-details" id="movieDetailsContent">
+                    <!-- Movie details will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Venue Selection Page -->
+        <div id="venueSelectionPage" class="page">
+            <div class="container">
+                <div class="booking-progress">
+                    <div class="progress-step active">1. Select Venue & Time</div>
+                    <div class="progress-step">2. Choose Seats</div>
+                    <div class="progress-step">3. Payment</div>
+                    <div class="progress-step">4. Confirmation</div>
+                </div>
+                <div class="venue-selection" id="venueSelectionContent">
+                    <!-- Venue selection will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seat Selection Page -->
+        <div id="seatSelectionPage" class="page">
+            <div class="container">
+                <div class="booking-progress">
+                    <div class="progress-step completed">1. Select Venue & Time</div>
+                    <div class="progress-step active">2. Choose Seats</div>
+                    <div class="progress-step">3. Payment</div>
+                    <div class="progress-step">4. Confirmation</div>
+                </div>
+                <div class="seat-selection" id="seatSelectionContent">
+                    <!-- Seat selection will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Page -->
+        <div id="paymentPage" class="page">
+            <div class="container">
+                <div class="booking-progress">
+                    <div class="progress-step completed">1. Select Venue & Time</div>
+                    <div class="progress-step completed">2. Choose Seats</div>
+                    <div class="progress-step active">3. Payment</div>
+                    <div class="progress-step">4. Confirmation</div>
+                </div>
+                <div class="payment-section" id="paymentContent">
+                    <!-- Payment content will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Confirmation Page -->
+        <div id="confirmationPage" class="page">
+            <div class="container">
+                <div class="booking-progress">
+                    <div class="progress-step completed">1. Select Venue & Time</div>
+                    <div class="progress-step completed">2. Choose Seats</div>
+                    <div class="progress-step completed">3. Payment</div>
+                    <div class="progress-step active">4. Confirmation</div>
+                </div>
+                <div class="confirmation" id="confirmationContent">
+                    <!-- Confirmation will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="page">
+            <div class="container">
+                <div class="profile-content" id="profileContent">
+                    <!-- Profile content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Book My Event</h3>
+                    <p>Your ultimate destination for movie ticket booking and live events</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <a href="#">About Us</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Categories</h4>
+                    <a href="#">Bollywood</a>
+                    <a href="#">Kollywood</a>
+                    <a href="#">Tollywood</a>
+                    <a href="#">Hollywood</a>
+                    <a href="#">Events</a>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/dharani.devi.904" target="_blank"><i class="fab fa-facebook"></i></a>
+                        <a href="https://x.com/Prem44969" target="_blank"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.instagram.com/being.premm/" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/@prem4433" target="_blank"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Us</h4>
+                    <a href="tel:+917483135876"><i class="fas fa-phone"></i> +91 7483135876</a>
+                    <a href="mailto:premlawerence54@gmail.com"><i class="fas fa-envelope"></i> premlawerence54@gmail.com</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Book My Event. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Forgot Password Modal -->
+    <div class="modal hidden" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close" onclick="closeModal('forgotPasswordModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="handleForgotPassword(event)">
+                    <div class="form-group">
+                        <label class="form-label">Enter your email address</label>
+                        <input type="email" class="form-control" name="email" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--full-width">Send Reset Link</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading hidden" id="loading">
+        <div class="spinner"></div>
+        <p>Processing your booking...</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>

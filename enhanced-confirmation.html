@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Confirmation - Book My Event</title>
+  <style>
+    body {
+      background: #121212;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .navbar {
+      background: #e63946;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .navbar div {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .navbar a {
+      color: #fff;
+      margin-left: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .container {
+      padding: 30px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .confirmation-card {
+      background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
+      border-radius: 15px;
+      padding: 30px;
+      margin: 20px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      border: 1px solid #333;
+    }
+    
+    .success-icon {
+      font-size: 4rem;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    
+    .ticket-container {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 30px;
+      margin-top: 30px;
+      align-items: start;
+    }
+    
+    .poster-section {
+      text-align: center;
+    }
+    
+    .movie-poster {
+      width: 100%;
+      max-width: 250px;
+      height: 350px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      margin-bottom: 15px;
+    }
+    
+    .details-section {
+      text-align: left;
+      background: #2a2a2a;
+      padding: 25px;
+      border-radius: 12px;
+      border-left: 5px solid #e63946;
+    }
+    
+    .booking-details h3 {
+      color: #e63946;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+    
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+      padding: 10px 0;
+      border-bottom: 1px solid #444;
+    }
+    
+    .detail-label {
+      font-weight: bold;
+      color: #ccc;
+    }
+    
+    .detail-value {
+      color: #fff;
+      font-weight: 500;
+    }
+    
+    .qr-section {
+      margin-top: 30px;
+      padding: 25px;
+      background: #fff;
+      border-radius: 12px;
+      color: #000;
+      text-align: center;
+    }
+    
+    .qr-code {
+      margin: 20px 0;
+    }
+    
+    .qr-instructions {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 15px;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: #e63946;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      margin: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: transform 0.2s;
+    }
+    
+    .btn:hover {
+      transform: scale(1.05);
+      background: #d32f2f;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    .footer {
+      background: #e63946;
+      color: #fff;
+      text-align: center;
+      padding: 15px;
+      margin-top: 40px;
+    }
+    
+    .logo-img {
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    
+    .logo-img:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 10px #fff);
+    }
+    
+    .booking-id {
+      background: #e63946;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 25px;
+      display: inline-block;
+      margin: 20px 0;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    
+    @media (max-width: 768px) {
+      .ticket-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .container {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+      <img src="https://i.ibb.co/93H4rscD/logo.png" alt="Book My Event Logo" style="height:90px;" class="logo-img">
+    </a>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="listings.html">Movies & Events</a>
+      <a href="booking.html">Book Tickets</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="confirmation-card">
+      <div class="success-icon">✅</div>
+      <h1>Booking Confirmed!</h1>
+      <p>Your tickets have been successfully booked. Here are your booking details:</p>
+      
+      <div class="booking-id" id="bookingId">Booking ID: #BKG-2025-001</div>
+      
+      <div class="ticket-container">
+        <div class="poster-section">
+          <img id="moviePoster" src="https://via.placeholder.com/250x350?text=Movie+Poster" 
+               alt="Movie Poster" class="movie-poster">
+        </div>
+        
+        <div class="details-section">
+          <div class="booking-details">
+            <h3 id="movieTitle">Movie Title</h3>
+            
+            <div class="detail-row">
+              <span class="detail-label">Venue:</span>
+              <span class="detail-value" id="venueDetail">PVR Cinemas</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Date & Time:</span>
+              <span class="detail-value" id="datetimeDetail">Today, 7:00 PM</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Seats:</span>
+              <span class="detail-value" id="seatsDetail">A1, A2, A3</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Category:</span>
+              <span class="detail-value" id="categoryDetail">Premium</span>
+            </div>
+            
+            <div class="detail-row">
+              <span class="detail-label">Total Paid:</span>
+              <span class="detail-value" id="totalDetail" style="color: #28a745; font-size: 1.2rem;">₹750.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- QR Code Section -->
+      <div class="qr-section">
+        <h3 style="color: #333;">Your Digital Ticket</h3>
+        <div class="qr-code" id="qrCode">
+          <!-- QR code will be generated here -->
+        </div>
+        <div class="qr-instructions">
+          <p><strong>Show this QR code at the venue for entry</strong></p>
+          <p>Screenshot this page or save the QR code for offline access</p>
+        </div>
+      </div>
+      
+      <div style="margin-top: 30px;">
+        <a href="index.html" class="btn">Back to Home</a>
+        <a href="profile.html" class="btn btn-secondary">View All Bookings</a>
+        <button onclick="downloadTicket()" class="btn">Download Ticket</button>
+        <button onclick="shareTicket()" class="btn btn-secondary">Share Ticket</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Book My Event. All rights reserved.</p>
+    <div style="margin-top:15px; display:flex; justify-content:center;">
+      <img src="https://i.ibb.co/93H4rscD/logo.png" alt="Book My Event Logo" style="height:80px;" class="logo-img">
+    </div>
+  </footer>
+
+  <!-- QR Code Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+
+  <script>
+    // Movie data from listings.html
+    const movieData = [
+      { title: "3 Idiots", img: "https://images.justwatch.com/poster/115370120/s718/3-idiots.jpg", category: "bollywood" },
+      { title: "Dangal", img: "https://upload.wikimedia.org/wikipedia/en/9/99/Dangal_Poster.jpg", category: "bollywood" },
+      { title: "PK", img: "https://m.media-amazon.com/images/M/MV5BMTYzOTE2NjkxN15BMl5BanBnXkFtZTgwMDgzMTg0MzE@._V1_FMjpg_UX1000_.jpg", category: "bollywood" },
+      { title: "Chennai Express", img: "https://images.jdmagicbox.com/comp/jd_social/news/2018jul31/image-176481-00ip909joy.jpg", category: "bollywood" },
+      { title: "Jawan", img: "https://upload.wikimedia.org/wikipedia/en/3/39/Jawan_film_poster.jpg", category: "bollywood" },
+      { title: "Gully Boy", img: "https://play-lh.googleusercontent.com/O7qMiw4gPMeVAgJlOU4XGVslbwIWd8Af5QZzEYhzzCo-yW-1rOFdviPubixeUzuVfwE6X3jIeSukUZPrZXM", category: "bollywood" },
+      { title: "Barfi!", img: "https://upload.wikimedia.org/wikipedia/en/2/2e/Barfi%21_poster.jpg", category: "bollywood" },
+      { title: "Andhadhun", img: "https://m.media-amazon.com/images/I/71Zk8KSESoL._UF1000,1000_QL80_.jpg", category: "bollywood" },
+      { title: "Enthiran (Robot)", img: "https://m.media-amazon.com/images/S/pv-target-images/7ee9fd58538fb2a4bfc46f7bfe6f90daa5025ad810d4814c335671a047e93070.jpg", category: "kollywood" },
+      { title: "Vikram", img: "https://upload.wikimedia.org/wikipedia/en/5/59/Vikram_soundtrack.jpg", category: "kollywood" },
+      { title: "Master", img: "https://upload.wikimedia.org/wikipedia/en/5/53/Master_2021_poster.jpg", category: "kollywood" },
+      { title: "Coolie", img: "https://dvvy6louqcr7j.cloudfront.net/vista/HO00016031/heroPoster/coolie.png", category: "kollywood" },
+      { title: "Kabali", img: "https://m.media-amazon.com/images/S/pv-target-images/d83f1b72cf5e89666330aa2f04468274e3c1eb7214c7b6a75c8b85f5a0577b90.jpg", category: "kollywood" },
+      { title: "Kaala", img: "https://m.media-amazon.com/images/M/MV5BY2JlN2E2NjQtYTFkYi00NGM4LThlM2YtZTgwYjMwYzE3MTQ3XkEyXkFqcGc@._V1_.jpg", category: "kollywood" },
+      { title: "Petta", img: "https://cinematrace.com/wp-content/uploads/2019/01/petta-2019.jpg?w=691", category: "kollywood" },
+      { title: "Soorarai Pottru", img: "https://m.media-amazon.com/images/S/pv-target-images/5477c845aff1cfa4c7e50babecf3179af3a7ad43a63dfb549d62d284ffced92f.jpg", category: "kollywood" },
+      { title: "Baahubali: The Beginning", img: "https://m.media-amazon.com/images/S/pv-target-images/274431b8945f779acab499a1625c2a3c9ebe1054d112aed3e55cd89c7d2ce41c.jpg", category: "tollywood" },
+      { title: "Baahubali 2: The Conclusion", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBuYrIAaGyfgshDDOikkfzkwsFuCqc9gfe9A&s", category: "tollywood" },
+      { title: "RRR", img: "https://upload.wikimedia.org/wikipedia/en/thumb/d/d7/RRR_Poster.jpg/250px-RRR_Poster.jpg", category: "tollywood" },
+      { title: "Pushpa: The Rise", img: "https://upload.wikimedia.org/wikipedia/en/7/75/Pushpa_-_The_Rise_%282021_film%29.jpg", category: "tollywood" },
+      { title: "Arjun Reddy", img: "https://upload.wikimedia.org/wikipedia/en/1/18/Arjun_Reddy_%28soundtrack%29.jpg", category: "tollywood" },
+      { title: "Maharshi", img: "https://images.justwatch.com/poster/327436002/s718/maharshi.jpg", category: "tollywood" },
+      { title: "Ala Vaikunthapurramuloo", img: "https://upload.wikimedia.org/wikipedia/en/2/28/Ala_Vaikunthapurramuloo.jpeg", category: "tollywood" },
+      { title: "Sarkaru Vaari Paata", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3q5VZMWrqcNuTIYHukEKiiD9tS0eiLSkfmw&s", category: "tollywood" },
+      { title: "Inception", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXWnBnPN47nWvqWJAxw-vmchKc_2u1zkG6Bw&s", category: "hollywood" },
+      { title: "The Dark Knight", img: "https://upload.wikimedia.org/wikipedia/en/8/83/Dark_knight_rises_poster.jpg", category: "hollywood" },
+      { title: "Interstellar", img: "https://upload.wikimedia.org/wikipedia/en/b/bc/Interstellar_film_poster.jpg", category: "hollywood" },
+      { title: "The Matrix", img: "https://static.wikia.nocookie.net/matrix/images/5/56/The_Matrix_digital_release_cover.jpg/revision/latest?cb=20210908111245", category: "hollywood" },
+      { title: "Avatar: The Way of Water", img: "https://upload.wikimedia.org/wikipedia/en/5/54/Avatar_The_Way_of_Water_poster.jpg", category: "hollywood" },
+      { title: "Top Gun: Maverick", img: "https://upload.wikimedia.org/wikipedia/en/thumb/1/13/Top_Gun_Maverick_Poster.jpg/250px-Top_Gun_Maverick_Poster.jpg", category: "hollywood" },
+      { title: "Jurassic World", img: "https://upload.wikimedia.org/wikipedia/en/6/6e/Jurassic_World_poster.jpg", category: "hollywood" },
+      { title: "Gladiator", img: "https://upload.wikimedia.org/wikipedia/en/f/fb/Gladiator_%282000_film_poster%29.png", category: "hollywood" },
+      { title: "Music Fest 2025", img: "https://images.unsplash.com/photo-1507874457470-272b3c8d8ee2", category: "events" },
+      { title: "Stand-up Comedy Night", img: "https://img.freepik.com/premium-photo/comedy-night-poster-template-with-microphone-stage-lights_1302-28554.jpg", category: "events" },
+      { title: "Stage Drama — The Last Act", img: "https://images.unsplash.com/photo-1485841890310-6a055c88698a", category: "events" },
+      { title: "Bollywood Retro Night", img: "https://d2rvgzn8c26h0v.cloudfront.net/retro-bollywood-night1713597691547.webp", category: "events" },
+      { title: "Indie Film Showcase", img: "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4", category: "events" },
+      { title: "Classical Music Evening", img: "https://images.unsplash.com/photo-1511379938547-c1f69419868d", category: "events" },
+      { title: "International Film Gala", img: "https://images.unsplash.com/photo-1478720568477-152d9b164e26", category: "events" },
+      { title: "Special Screening — Director's Cut", img: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d", category: "events" },
+      { title: "Lavender Festival", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo3eqXnr8BLQGcKEhyH2i5wey-WT2e69rfHA&s", category: "events" },
+      { title: "Food Carnival", img: "https://images.unsplash.com/photo-1515168833906-d2a3b82b302a", category: "events" },
+      { title: "Art Exhibition", img: "https://static.vecteezy.com/system/resources/previews/024/261/446/non_2x/art-posters-for-the-exhibition-magazine-or-cover-template-with-sculpture-art-antique-statues-geometric-background-modern-ancient-greek-or-roman-style-neo-nostalgia-banner-vector.jpg", category: "events" },
+      { title: "International Film Awards", img: "https://images.unsplash.com/photo-1490750967868-88aa4486c946", category: "events" },
+      { title: "Rock Concert Evening", img: "https://images.unsplash.com/photo-1511376777868-611b54f68947", category: "events" },
+      { title: "Dance Show Extravaganza", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15fDasY04LFmH2Q5EpBZ_5I6OMk4rw_rNbw&s", category: "events" },
+      { title: "Classical Drama Night", img: "https://i.pinimg.com/736x/81/af/5d/81af5d759192cd2662496af37e1e480a.jpg", category: "events" },
+      { title: "Documentary Screening", img: "https://mir-s3-cdn-cf.behance.net/project_modules/1400/22aaf036109667.5abd3b4fc427b.jpg", category: "events" }
+    ];
+
+    function findMovieByTitle(title) {
+      return movieData.find(movie => 
+        movie.title.toLowerCase().includes(title.toLowerCase()) || 
+        title.toLowerCase().includes(movie.title.toLowerCase())
+      );
+    }
+
+    function generateBookingId() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+      return `BKG-${year}${month}${day}-${random}`;
+    }
+
+    async function generateQRCode(data) {
+      try {
+        const qrCodeDataURL = await QRCode.toDataURL(data, {
+          width: 200,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        });
+        
+        const qrContainer = document.getElementById('qrCode');
+        qrContainer.innerHTML = `<img src="${qrCodeDataURL}" alt="QR Code" style="border-radius: 8px;">`;
+      } catch (error) {
+        console.error('Error generating QR code:', error);
+        document.getElementById('qrCode').innerHTML = '<p>QR Code generation failed</p>';
+      }
+    }
+
+    function formatDateTime() {
+      const now = new Date();
+      const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      return now.toLocaleDateString('en-IN', options);
+    }
+
+    function loadBookingDetails() {
+      // Try to get booking details from various sources
+      let booking = null;
+      
+      // Check localStorage for booking details
+      const bookingDetails = localStorage.getItem('bookingDetails');
+      const lastBooking = localStorage.getItem('lastBooking');
+      const finalAmount = localStorage.getItem('finalAmount');
+      
+      if (bookingDetails) {
+        booking = JSON.parse(bookingDetails);
+      } else if (lastBooking) {
+        booking = JSON.parse(lastBooking);
+      }
+
+      // Generate booking ID
+      const bookingId = generateBookingId();
+      document.getElementById('bookingId').textContent = `Booking ID: #${bookingId}`;
+
+      if (booking) {
+        // Find movie data to get proper poster
+        const movieInfo = findMovieByTitle(booking.movie || booking.title || 'Unknown Movie');
+        
+        // Update movie title
+        const movieTitle = booking.movie || booking.title || 'Unknown Movie';
+        document.getElementById('movieTitle').textContent = movieTitle;
+
+        // Update poster
+        const posterUrl = movieInfo ? movieInfo.img : (booking.poster || 'https://via.placeholder.com/250x350?text=Movie+Poster');
+        document.getElementById('moviePoster').src = posterUrl;
+        document.getElementById('moviePoster').alt = movieTitle + ' Poster';
+
+        // Update booking details
+        document.getElementById('venueDetail').textContent = booking.venue || 'PVR Cinemas';
+        document.getElementById('datetimeDetail').textContent = booking.showtime ? 
+          `Today, ${booking.showtime}` : formatDateTime();
+        
+        // Format seats
+        let seatsText = 'Not Selected';
+        if (booking.seats) {
+          if (Array.isArray(booking.seats)) {
+            seatsText = booking.seats.length > 0 ? booking.seats.join(', ') : 'Not Selected';
+          } else if (typeof booking.seats === 'string') {
+            seatsText = booking.seats;
+          } else if (typeof booking.seats === 'number') {
+            seatsText = `${booking.seats} seat(s)`;
+          }
+        }
+        document.getElementById('seatsDetail').textContent = seatsText;
+
+        // Update category
+        document.getElementById('categoryDetail').textContent = movieInfo ? 
+          movieInfo.category.charAt(0).toUpperCase() + movieInfo.category.slice(1) : 'General';
+
+        // Update total
+        const total = finalAmount || booking.total_price || booking.total || '0';
+        document.getElementById('totalDetail').textContent = `₹${parseFloat(total).toFixed(2)}`;
+
+        // Generate QR code with booking information
+        const qrData = JSON.stringify({
+          bookingId: bookingId,
+          movie: movieTitle,
+          venue: booking.venue || 'PVR Cinemas',
+          showtime: booking.showtime || 'TBD',
+          seats: seatsText,
+          total: total,
+          timestamp: new Date().toISOString()
+        });
+
+        generateQRCode(qrData);
+      } else {
+        // Fallback for demo purposes
+        console.log('No booking details found, using demo data');
+        generateQRCode(JSON.stringify({
+          bookingId: bookingId,
+          movie: 'Demo Movie',
+          venue: 'PVR Cinemas',
+          showtime: 'Today, 7:00 PM',
+          seats: 'A1, A2',
+          total: '500.00',
+          timestamp: new Date().toISOString()
+        }));
+      }
+    }
+
+    function downloadTicket() {
+      // Convert the ticket to a downloadable format
+      const ticketData = {
+        bookingId: document.getElementById('bookingId').textContent,
+        movie: document.getElementById('movieTitle').textContent,
+        venue: document.getElementById('venueDetail').textContent,
+        datetime: document.getElementById('datetimeDetail').textContent,
+        seats: document.getElementById('seatsDetail').textContent,
+        total: document.getElementById('totalDetail').textContent
+      };
+
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ticketData, null, 2));
+      const downloadAnchorNode = document.createElement('a');
+      downloadAnchorNode.setAttribute("href", dataStr);
+      downloadAnchorNode.setAttribute("download", `ticket-${ticketData.bookingId.replace('#', '').replace(/\s+/g, '-')}.json`);
+      document.body.appendChild(downloadAnchorNode);
+      downloadAnchorNode.click();
+      downloadAnchorNode.remove();
+
+      alert('✅ Ticket downloaded successfully!');
+    }
+
+    function shareTicket() {
+      const ticketInfo = `
+🎬 Movie Ticket Confirmation
+
+🎥 Movie: ${document.getElementById('movieTitle').textContent}
+🏢 Venue: ${document.getElementById('venueDetail').textContent}
+📅 Date & Time: ${document.getElementById('datetimeDetail').textContent}
+🎟️ Seats: ${document.getElementById('seatsDetail').textContent}
+💰 Total: ${document.getElementById('totalDetail').textContent}
+
+${document.getElementById('bookingId').textContent}
+
+Book your tickets at Book My Event!
+      `;
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Movie Ticket Confirmation',
+          text: ticketInfo
+        });
+      } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(ticketInfo).then(() => {
+          alert('✅ Ticket details copied to clipboard!');
+        });
+      }
+    }
+
+    // Load booking details when page loads
+    document.addEventListener('DOMContentLoaded', loadBookingDetails);
+  </script>
+
+</body>
+</html>
